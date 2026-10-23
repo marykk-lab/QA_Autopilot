@@ -1,0 +1,7 @@
+{
+  "description": "as the owner, log in, create the bug with name Hey_Laura",
+  "baseURL": "http://localhost:3000/",
+  "filename": "create-bug-hey-laura.spec.ts",
+  "code": "import { test, expect } from \"@playwright/test\";\n\nconst EMAIL = process.env.FEEDBOON_EMAIL ?? \"\";\nconst PASSWORD = process.env.FEEDBOON_PASSWORD ?? \"\";\n\ntest.describe(\"Feedback board — create task\", () => {\n  test(\"owner logs in and creates a bug named Hey_Laura\", async ({ page }) => {\n    const title = `Hey_Laura ${Date.now()}`;\n\n    await page.goto(\"/login\");\n    await page.getByRole(\"textbox\", { name: \"Email\" }).fill(EMAIL);\n    await page.getByRole(\"textbox\", { name: \"Password\" }).fill(PASSWORD);\n    await page.getByRole(\"button\", { name: \"Sign in\" }).click();\n\n    await expect(page.getByRole(\"heading\", { name: \"Projects\", level: 1 })).toBeVisible();\n\n    await page.goto(\"/projects/test-org-6fsn\");\n    await expect(page.getByRole(\"heading\", { name: \"test_org\", level: 1 })).toBeVisible();\n\n    await page.getByRole(\"button\", { name: \"Add task\" }).click();\n\n    const dialog = page.getByRole(\"dialog\", { name: \"New task\" });\n    await expect(dialog).toBeVisible();\n    await dialog.getByRole(\"textbox\", { name: \"Title *\" }).fill(title);\n    await dialog.getByRole(\"button\", { name: \"Create task\" }).click();\n\n    await expect(dialog).toBeHidden();\n    await expect(page.getByRole(\"paragraph\").filter({ hasText: title })).toBeVisible();\n  });\n});\n",
+  "createdAt": "2026-10-01T21:39:08.049Z"
+}

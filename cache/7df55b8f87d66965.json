@@ -1,0 +1,7 @@
+{
+  "description": "add a backpack to the cart as the standard user and check the cart badge shows 1",
+  "baseURL": "https://www.saucedemo.com",
+  "filename": "add-backpack-to-cart.spec.ts",
+  "code": "import { test, expect } from \"@playwright/test\";\n\ntest.describe(\"Cart badge\", () => {\n  test(\"shows 1 after adding the backpack as standard user\", async ({ page }) => {\n    await page.goto(\"/\");\n\n    await page.getByRole(\"textbox\", { name: \"Username\" }).fill(\"standard_user\");\n    await page.getByRole(\"textbox\", { name: \"Password\" }).fill(\"secret_sauce\");\n    await page.getByRole(\"button\", { name: \"Login\" }).click();\n\n    await expect(page).toHaveURL(/\\/inventory\\.html$/);\n\n    // The backpack's \"Add to cart\" button is the one inside its product card\n    const backpackCard = page\n      .locator(\".inventory_item\")\n      .filter({ hasText: \"Sauce Labs Backpack\" });\n    await backpackCard.getByRole(\"button\", { name: \"Add to cart\" }).click();\n\n    const cartBadge = page.locator(\".shopping_cart_badge\");\n    await expect(cartBadge).toBeVisible();\n    await expect(cartBadge).toHaveText(\"1\");\n  });\n});\n",
+  "createdAt": "2026-10-01T18:34:14.292Z"
+}

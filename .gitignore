@@ -1,0 +1,10 @@
+node_modules/
+.env
+test-results/
+playwright-report/
+blob-report/
+*.tsbuildinfo
+target.local.json
+
+# Captured page trees — logged-in pages contain personal data
+page-cache/

@@ -1,0 +1,7 @@
+{
+  "description": "log in as the standard user and check the products page appears",
+  "baseURL": "https://www.saucedemo.com",
+  "filename": "standard-user-login.spec.ts",
+  "code": "import { test, expect } from \"@playwright/test\";\n\ntest.describe(\"Login\", () => {\n  test(\"standard user logs in and lands on the products page\", async ({ page }) => {\n    await page.goto(\"/\");\n\n    await page.getByRole(\"textbox\", { name: \"Username\" }).fill(\"standard_user\");\n    await page.getByRole(\"textbox\", { name: \"Password\" }).fill(\"secret_sauce\");\n    await page.getByRole(\"button\", { name: \"Login\" }).click();\n\n    await expect(page).toHaveURL(/\\/inventory\\.html$/);\n    await expect(page.getByText(\"Products\", { exact: true })).toBeVisible();\n  });\n});\n",
+  "createdAt": "2026-10-01T18:33:32.833Z"
+}

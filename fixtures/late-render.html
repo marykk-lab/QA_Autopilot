@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Late render</title>
+<body>
+  <div id="root"></div>
+  <script>
+    // Nothing exists at domcontentloaded — the same shape as a hydrating SPA.
+    setTimeout(() => {
+      document.getElementById("root").innerHTML = `
+        <h1>Invoices</h1>
+        <button id="new-invoice">Create invoice</button>
+        <table><caption>Open invoices</caption>
+          <tr><th>Client</th><th>Amount</th></tr>
+          <tr><td>Acme</td><td>1200</td></tr>
+        </table>`;
+    }, 2000);
+  </script>
+</body>

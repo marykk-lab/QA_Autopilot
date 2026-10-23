@@ -1,0 +1,7 @@
+{
+  "description": "log in as the standard user and check the products page still looks right",
+  "baseURL": "https://www.saucedemo.com",
+  "filename": "products-page-visual.spec.ts",
+  "code": "import { test, expect } from \"@playwright/test\";\n\ntest.describe(\"Products page appearance\", () => {\n  test(\"standard user sees the products page rendered as expected\", async ({ page }) => {\n    await page.goto(\"/\");\n\n    await page.getByRole(\"textbox\", { name: \"Username\" }).fill(\"standard_user\");\n    await page.getByRole(\"textbox\", { name: \"Password\" }).fill(\"secret_sauce\");\n    await page.getByRole(\"button\", { name: \"Login\" }).click();\n\n    await expect(page).toHaveURL(/\\/inventory\\.html$/);\n    await expect(page.getByText(\"Products\", { exact: true })).toBeVisible();\n\n    await expect(page).toHaveScreenshot(\"products-page.png\");\n  });\n});\n",
+  "createdAt": "2026-10-01T18:33:44.335Z"
+}

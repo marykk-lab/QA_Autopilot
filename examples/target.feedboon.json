@@ -1,0 +1,75 @@
+{
+  "_instructions": [
+    "Feedboon, running locally. Copy this to target.local.json in the repo root",
+    "(it is gitignored, so your credentials never get committed), fill in the two",
+    "TODOs below, then:",
+    "",
+    "  1. cd ~/Work/feedboon && pnpm dev          # dashboard serves on :3000",
+    "  2. Sign up through the app once — supabase/seed.sql has no seeded user,",
+    "     it expects an account to exist first. Put that account's email and",
+    "     password in credentials below.",
+    "  3. Create at least one project in the UI, then put its slug in the",
+    "     project page path below (replace YOUR-PROJECT-SLUG).",
+    "  4. cd ~/Projects/ai-qa-platform",
+    "     BASE_URL=http://localhost:3000 npm run inspect",
+    "     BASE_URL=http://localhost:3000 npm run dev",
+    "",
+    "Everything here was read from the Feedboon repo on 2026-10-01:",
+    "login form apps/dashboard/app/(auth)/login/page.tsx (labels Email/Password,",
+    "submit 'Sign in'), post-login landing is / with an h1 'Projects',",
+    "dashboard port from apps/dashboard/package.json (next dev -H 127.0.0.1)."
+  ],
+
+  "description": "Feedboon — a visual bug reporting tool for websites. Users capture screenshots, annotate bugs and collect feedback. Next.js dashboard on Supabase auth. Organisations contain projects; each project has a feedback board with statuses, a team, and widget settings. There is also a QA Hub with a knowledge base and analytics.",
+
+  "credentials": [
+    {
+      "role": "owner",
+      "username": "TODO-your-local-account@example.com",
+      "password": "TODO-your-local-password"
+    }
+  ],
+
+  "notes": [
+    "This is a local development instance — no Cloudflare or bot protection in front of it.",
+    "Signing in lands on / which lists the user's projects under an h1 'Projects'.",
+    "Project pages live at /projects/<slug>; settings at /projects/<slug>/settings/{general,board,team,widget}.",
+    "Account pages: /account/profile, /account/team, /account/api-keys, /account/billing.",
+    "The login page also offers a 'Magic link' button — use 'Sign in' for password login.",
+    "It is a Next.js app, so pages render after hydration rather than at domcontentloaded."
+  ],
+
+  "inspect": {
+    "baseURL": "http://localhost:3000",
+    "settleMs": 600,
+    "signIn": {
+      "path": "/login",
+      "credential": "owner",
+      "username": { "label": "Email" },
+      "password": { "label": "Password" },
+      "submit": { "role": "button", "name": "Sign in" },
+      "confirm": { "role": "heading", "name": "Projects" }
+    },
+    "pages": [
+      { "name": "login page", "path": "/login" },
+      {
+        "name": "projects list (post-login landing)",
+        "path": "/",
+        "requiresSignIn": true,
+        "waitFor": { "role": "heading", "name": "Projects" }
+      },
+      {
+        "name": "project feedback board",
+        "path": "/projects/YOUR-PROJECT-SLUG",
+        "requiresSignIn": true
+      },
+      {
+        "name": "project team settings",
+        "path": "/projects/YOUR-PROJECT-SLUG/settings/team",
+        "requiresSignIn": true
+      },
+      { "name": "account profile", "path": "/account/profile", "requiresSignIn": true },
+      { "name": "account team", "path": "/account/team", "requiresSignIn": true }
+    ]
+  }
+}

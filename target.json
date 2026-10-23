@@ -1,0 +1,89 @@
+{
+  "description": "Feedboon \u2014 a visual bug reporting tool for websites. Users capture screenshots, annotate bugs and collect feedback. Next.js dashboard on Supabase auth. Organisations contain projects; each project has a feedback board with statuses, a team, and widget settings. There is also a QA Hub with a knowledge base and analytics.",
+  "credentials": [
+    {
+      "role": "owner",
+      "usernameEnv": "FEEDBOON_EMAIL",
+      "passwordEnv": "FEEDBOON_PASSWORD"
+    }
+  ],
+  "notes": [
+    "This is a local development instance \u2014 no Cloudflare or bot protection in front of it.",
+    "Signing in lands on / which lists the user's projects under an h1 'Projects'.",
+    "Project pages live at /projects/<slug>; settings at /projects/<slug>/settings/{general,board,team,widget}.",
+    "Account pages: /account/profile, /account/team, /account/api-keys, /account/billing.",
+    "The login page also offers a 'Magic link' button \u2014 use 'Sign in' for password login.",
+    "It is a Next.js app, so pages render after hydration rather than at domcontentloaded."
+  ],
+  "inspect": {
+    "baseURL": "http://localhost:3000",
+    "settleMs": 600,
+    "signIn": {
+      "path": "/login",
+      "credential": "owner",
+      "username": {
+        "label": "Email"
+      },
+      "password": {
+        "label": "Password"
+      },
+      "submit": {
+        "role": "button",
+        "name": "Sign in"
+      },
+      "confirm": {
+        "role": "heading",
+        "name": "Projects"
+      }
+    },
+    "pages": [
+      {
+        "name": "login page",
+        "path": "/login"
+      },
+      {
+        "name": "projects list (post-login landing)",
+        "path": "/",
+        "requiresSignIn": true,
+        "waitFor": {
+          "role": "heading",
+          "name": "Projects"
+        }
+      },
+      {
+        "name": "test_org",
+        "path": "/projects/test-org-6fsn",
+        "requiresSignIn": true,
+        "states": [
+          {
+            "name": "New task dialog",
+            "click": [
+              {
+                "role": "button",
+                "name": "Add task"
+              }
+            ],
+            "waitFor": {
+              "role": "dialog"
+            }
+          }
+        ]
+      },
+      {
+        "name": "test_org",
+        "path": "/projects/test-org-6fsn/settings/team",
+        "requiresSignIn": true
+      },
+      {
+        "name": "account profile",
+        "path": "/account/profile",
+        "requiresSignIn": true
+      },
+      {
+        "name": "account team",
+        "path": "/account/team",
+        "requiresSignIn": true
+      }
+    ]
+  }
+}
