@@ -1,5 +1,5 @@
-import "./env.js"; // must run before anything reads process.env
-import { generateTest } from "./generate.js";
+import "../lib/env"; // must run before anything reads process.env
+import { generateTest } from "../lib/generate";
 
 const description = process.argv.slice(2).join(" ").trim();
 

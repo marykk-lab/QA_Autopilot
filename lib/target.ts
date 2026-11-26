@@ -1,4 +1,5 @@
 import { readFile } from "node:fs/promises";
+import path from "node:path";
 
 /**
  * What the generator is allowed to know about the site under test.
@@ -104,7 +105,15 @@ export function resolveCredential(credential: NonNullable<Target["credentials"]>
 export async function loadTarget(): Promise<Target> {
   for (const file of ["target.local.json", "target.json"]) {
     try {
-      return JSON.parse(await readFile(file, "utf8")) as Target;
+      // Resolved against the project root explicitly: the same function is called
+      // from a CLI script and from a bundled route handler, and only one of those
+      // can rely on the process's working directory being this repo.
+      //
+      // turbopackIgnore: the path is a fixed pair of filenames, not user input.
+      // Without it the bundler traces the entire project into the server output
+      // because it cannot prove that.
+      const configPath = path.resolve(/*turbopackIgnore: true*/ process.cwd(), file);
+      return JSON.parse(await readFile(configPath, "utf8")) as Target;
     } catch {
       continue;
     }

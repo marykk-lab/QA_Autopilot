@@ -1,8 +1,7 @@
-import "./env.js"; // must run before anything reads process.env
 import { chromium, type Page } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
-import { loadTarget, resolveCredential, type Target, type FieldLocator } from "./target.js";
+import { loadTarget, resolveCredential, type Target, type FieldLocator } from "./target";
 
 // Deliberately not inside cache/ — that directory holds generated-test entries
 // and is read back by cache.listDescriptions().
@@ -224,17 +223,4 @@ function locate(page: Page, field: FieldLocator) {
   if (field.role) return page.getByRole(field.role as any, field.name ? { name: field.name } : undefined);
   if (field.text) return page.getByText(field.text);
   throw new Error(`Locator in target.json needs one of: css, label, placeholder, role, text — got ${JSON.stringify(field)}`);
-}
-
-// `npm run inspect`
-if (process.argv[1]?.endsWith("inspect.ts")) {
-  const target = await loadTarget();
-  const snapshots = await capture(target);
-  if (!snapshots.length) {
-    console.log("Nothing to inspect — add an `inspect` block to target.json.");
-  } else {
-    for (const s of snapshots) console.log(`captured ${s.name} (${s.path}) — ${s.tree.length} chars`);
-    const url = process.env.BASE_URL ?? target.inspect!.baseURL!;
-    console.log(`\n→ ${path.relative(process.cwd(), snapshotFile(url))}`);
-  }
 }

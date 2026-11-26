@@ -133,7 +133,7 @@ failure, and the post-click menu failure outright. Our snapshot layer is a weake
 hand-maintained substitute for something that already exists and is maintained by
 the Playwright team.
 
-**Conclusion: replace `src/inspect.ts` with Playwright MCP.** That deletes roughly
+**Conclusion: replace `lib/inspect.ts` with Playwright MCP.** That deletes roughly
 250 lines of code this project is maintaining badly, and removes a whole class of
 staleness bug (a snapshot is a photo; MCP looks at the live page).
 

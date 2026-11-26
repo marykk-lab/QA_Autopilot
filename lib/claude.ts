@@ -1,8 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { SYSTEM_PROMPT, buildUserMessage } from "./prompt.js";
-import { loadTarget, renderTarget } from "./target.js";
-import { loadSnapshots, renderSnapshots } from "./inspect.js";
-import type { GeneratedTest, Generator, TestRequest } from "./types.js";
+import { SYSTEM_PROMPT, buildUserMessage } from "./prompt";
+import { loadTarget, renderTarget } from "./target";
+import { loadSnapshots, renderSnapshots } from "./inspect";
+import type { GeneratedTest, Generator, TestRequest } from "./types";
 
 const MODEL = "claude-opus-5";
 

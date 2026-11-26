@@ -1,6 +1,6 @@
 import { spawn } from "node:child_process";
 import path from "node:path";
-import { listSuite } from "./generate.js";
+import { listSuite } from "./generate";
 
 const PLAYWRIGHT_BIN = path.resolve("node_modules/.bin/playwright");
 

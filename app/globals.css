@@ -455,3 +455,105 @@ pre.failure {
   font-size: 13px;
   white-space: pre-wrap;
 }
+
+/* ---------- auth ---------- */
+
+.auth-shell {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.auth-card .brand {
+  margin-bottom: 18px;
+}
+
+.auth-card h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.auth-card p.note {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.field label {
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.field input {
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+}
+
+.field input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+
+.auth-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.auth-actions .primary {
+  flex: 1;
+}
+
+.message {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--pass) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--pass) 30%, transparent);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* A degraded save, not a failed action — the test was still approved or run. */
+.warning {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: color-mix(in srgb, var(--warn) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+  border-radius: 6px;
+  font-size: 13px;
+  white-space: pre-wrap;
+}
+
+.signout {
+  font-size: 13px;
+  padding: 4px 10px;
+}
+
+.last-run {
+  font-size: 12px;
+  color: var(--text-faint);
+}

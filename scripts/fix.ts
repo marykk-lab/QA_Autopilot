@@ -1,7 +1,7 @@
-import "./env.js";
-import { runSpec } from "./runner.js";
-import { repairTest } from "./repair.js";
-import { saveTest, listSuite } from "./generate.js";
+import "../lib/env";
+import { runSpec } from "../lib/runner";
+import { repairTest } from "../lib/repair";
+import { saveTest, listSuite } from "../lib/generate";
 
 /**
  * Run → repair → re-run, up to a few attempts.

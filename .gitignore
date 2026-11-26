@@ -1,10 +1,15 @@
 node_modules/
 .env
+.env*.local
 test-results/
 playwright-report/
 blob-report/
 *.tsbuildinfo
 target.local.json
+
+# Next.js
+.next/
+next-env.d.ts
 
 # Captured page trees — logged-in pages contain personal data
 page-cache/

@@ -1,8 +1,8 @@
 import { writeFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
-import * as cache from "./cache.js";
-import { ClaudeGenerator } from "./claude.js";
-import type { GeneratedTest, TestRequest } from "./types.js";
+import * as cache from "./cache";
+import { ClaudeGenerator } from "./claude";
+import type { GeneratedTest, TestRequest } from "./types";
 
 export const OUT_DIR = path.resolve("tests/generated");
 
@@ -24,6 +24,18 @@ export function pinBaseURL(test: GeneratedTest, baseURL: string): GeneratedTest 
   const lastImport = lines.reduce((at, line, i) => (line.startsWith("import ") ? i : at), -1);
   lines.splice(lastImport + 1, 0, "", `test.use({ baseURL: "${baseURL}" });`);
   return { ...test, code: lines.join("\n") };
+}
+
+/**
+ * The site a spec says it tests.
+ *
+ * The spec file is the authority, not the server's current BASE_URL: the env var
+ * changes between targets, and recording "this test covers whatever I was pointed
+ * at when you clicked approve" is how a suite ends up lying about which
+ * application it tests.
+ */
+export function readPinnedBaseURL(code: string): string | undefined {
+  return code.match(/test\.use\(\s*\{[^}]*baseURL:\s*["'`]([^"'`]+)["'`]/)?.[1];
 }
 
 /**

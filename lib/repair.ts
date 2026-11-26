@@ -1,12 +1,12 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { loadSnapshots, renderSnapshots } from "./inspect.js";
-import { loadTarget, renderTarget } from "./target.js";
-import { parseResponse } from "./claude.js";
-import { OUT_DIR, pinBaseURL } from "./generate.js";
-import type { GeneratedTest } from "./types.js";
-import type { RunResult } from "./runner.js";
+import { loadSnapshots, renderSnapshots } from "./inspect";
+import { loadTarget, renderTarget } from "./target";
+import { parseResponse } from "./claude";
+import { OUT_DIR, pinBaseURL, readPinnedBaseURL } from "./generate";
+import type { GeneratedTest } from "./types";
+import type { RunResult } from "./runner";
 
 const MODEL = "claude-opus-5";
 const PRICE_INPUT_PER_MTOK = 5.0;
@@ -74,7 +74,7 @@ export async function repairTest(filename: string, run: RunResult, attempt = 1):
   // The spec says which site it tests. Repairing it against another site's page
   // structure produces a test that passes while testing the wrong application —
   // so refuse rather than guess.
-  const baseURL = currentCode.match(/test\.use\(\s*\{[^}]*baseURL:\s*["'`]([^"'`]+)["'`]/)?.[1];
+  const baseURL = readPinnedBaseURL(currentCode);
   if (!baseURL) {
     throw new Error(
       `${filename} has no test.use({ baseURL }), so there is no way to tell which site it tests. ` +

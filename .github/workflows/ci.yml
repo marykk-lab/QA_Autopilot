@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    env:
+      # The build imports the Supabase client, which refuses to start without
+      # these. CI never talks to a real project, so placeholders are correct here
+      # — anything that needs a live database belongs in a test, not the build.
+      NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:54321
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-placeholder-anon-key
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      # Only tests/unit. Generated specs drive a live site, so gating on them
+      # would make a red build mean "saucedemo.com is slow today" — which trains
+      # everyone to ignore CI. They are run from the app and from npm test.
+      - name: Test
+        run: npx playwright test tests/unit

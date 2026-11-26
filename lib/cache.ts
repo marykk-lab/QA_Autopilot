@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
-import type { GeneratedTest, TestRequest } from "./types.js";
+import type { GeneratedTest, TestRequest } from "./types";
 
 const CACHE_DIR = path.resolve("cache");
 
